@@ -1,0 +1,13 @@
+---
+- name: Configure Keymap via vconsole
+  copy:
+    src: vconsole.conf
+    dest: /etc/vconsole.conf
+    owner: root
+    group: root
+    mode: 0440
+
+- name: Ensure fr_FR locale exists
+  community.general.locale_gen:
+    name: fr_FR.UTF-8
+    state: present

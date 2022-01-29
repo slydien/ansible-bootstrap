@@ -1,0 +1,28 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+  provider:
+    name: libvirt
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+platforms:
+  - name: instance
+    box: archlinux/archlinux
+    memory: 4096
+    cpus: 4
+    provider_options:
+      graphics_type: 'spice'
+provisioner:
+  name: ansible
+  options:
+    vvv: true
+  config_options:
+    defaults:
+      remote_tmp: "/tmp/.ansible-${USER}/tmp"
+      stdout_callback: yaml
+  playbooks:
+    converge: ${MOLECULE_PLAYBOOK:-converge.yml}

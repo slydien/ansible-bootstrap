@@ -1,0 +1,243 @@
+---
+- name: Configure Gnome with dconf utility.
+  become: true
+  become_user: "{{ username }}"
+  block:
+  - name: Configure french and us keyboard layouts.
+    community.general.dconf:
+      key: "/org/gnome/desktop/input-sources/sources"
+      value: "[('xkb', 'fr'), ('xkb', 'us')]"
+      state: present
+
+  - name: Configure Caps-Lock as Ctrl key.
+    community.general.dconf:
+      key: "/org/gnome/desktop/input-sources/xkb-options"
+      value: ['ctrl:nocaps']
+      state: present
+
+  - name: Configure clock format.
+    community.general.dconf:
+      key: "/org/gnome/desktop/interface/clock-format"
+      value: "'24h'"
+      state: present
+
+  - name: Ensure animation is enabled.
+    community.general.dconf:
+      key: "/org/gnome/desktop/interface/enable-animations"
+      value: "true"
+      state: present
+
+  - name: Ensure hot corners is disabled.
+    community.general.dconf:
+      key: "/org/gnome/desktop/interface/enable-hot-corners"
+      value: "false"
+      state: present
+
+  - name: Configure font aliasing to rgba.
+    community.general.dconf:
+      key: "/org/gnome/desktop/interface/font-antialiasing"
+      value: "'rgba'"
+      state: present
+
+  - name: Configure font hinting to slight.
+    community.general.dconf:
+      key: "/org/gnome/desktop/interface/font-hinting"
+      value: "'slight'"
+      state: present
+
+  - name: Ensure Roboto Mono 10 is the monospace font.
+    community.general.dconf:
+      key: "/org/gnome/desktop/interface/monospace-font-name"
+      value: "'Roboto Mono 10'"
+      state: present
+
+  - name: Ensure battery percentage is enabled.
+    community.general.dconf:
+      key: "/org/gnome/desktop/interface/show-battery-percentage"
+      value: "true"
+      state: present
+
+  - name: Configure text scaling factor to 1.150.
+    community.general.dconf:
+      key: "/org/gnome/desktop/interface/text-scaling-factor"
+      value: "1.1499999999999999"
+      state: present
+
+  - name: Ensure toolkit accessibility is disabled.
+    community.general.dconf:
+      key: "/org/gnome/desktop/interface/toolkit-accessibility"
+      value: "false"
+      state: present
+
+  - name: Ensure natural scroll is disabled for the mouse.
+    community.general.dconf:
+      key: "/org/gnome/desktop/peripherals/mouse/natural-scroll"
+      value: "false"
+      state: present
+
+  - name: Ensure natural scroll is disabled for the touchpad.
+    community.general.dconf:
+      key: "/org/gnome/desktop/peripherals/touchpad/natural-scroll"
+      value: "false"
+      state: present
+
+  - name: Ensure two fingers scrolling is enabled.
+    community.general.dconf:
+      key: "/org/gnome/desktop/peripherals/touchpad/two-finger-scrolling-enabled"
+      value: "true"
+      state: present
+
+  - name: Ensure numlock state is saved when login in to Gnome.
+    community.general.dconf:
+      key: "/org/gnome/desktop/peripherals/keyboard/numlock-state"
+      value: "false"
+      state: present
+
+  - name: Ensure you can turn volume above 100 percent.
+    community.general.dconf:
+      key: "/org/gnome/desktop/sound/allow-volume-above-100-percent"
+      value: "true"
+      state: present
+
+  - name: Ensure new windows are centered.
+    community.general.dconf:
+      key: "/org/gnome/desktop/mutter/center-new-windows"
+      value: "true"
+      state: present
+
+  - name: Ensure experimental features such as monitor scaling and x11 fractional sclaing are enabled.
+    community.general.dconf:
+      key: "/org/gnome/desktop/mutter/experimental-features"
+      value: "['scale-monitor-framebuffer', 'x11-randr-fractional-scaling']"
+      state: present
+
+  - name: Ensure workspaces are present on all monitors.
+    community.general.dconf:
+      key: "/org/gnome/desktop/mutter/workspaces-only-on-primary"
+      value: "false"
+      state: present
+
+  - name: Ensure system locale is set to fr_FR.UTF-8.
+    community.general.dconf:
+      key: "/system/locale/region"
+      value: "'fr_FR.UTF-8'"
+      state: present
+
+  - name: Pin favorite apps to the dock.
+    community.general.dconf:
+      key: "/org/gnome/shell/favorite-apps"
+      value: "['firefox.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.Nautilus.desktop', 'gnome-control-center.desktop', 'org.gnome.tweaks.desktop', 'org.cryptomator.Cryptomator.desktop', 'com.getferdi.Ferdi.desktop', 'virt-manager.desktop', 'filezilla.desktop', 'plexmediaplayer.desktop', 'emacs.desktop', 'org.qbittorrent.qBittorrent.desktop', 'com.spotify.Client.desktop']"
+      state: present
+
+  - name: Disable hot corner.
+    community.general.dconf:
+      key: "/org/gnome/desktop/interface/enable-hot-corners"
+      value: "false"
+      state: present
+
+    #####################
+    # terminal settings #
+    #####################
+
+  - name: Disable terminal bell.
+    community.general.dconf:
+      key: "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/audible-bell"
+      value: "false"
+
+  - name: Enable terminal transparency.
+    community.general.dconf:
+      key: "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/use-transparent-background"
+      value: "true"
+
+  - name: Set the percentage of terminal transparency.
+    community.general.dconf:
+      key: "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/background-transparency-percent"
+      value: "5"
+
+  - name: Set bold as bright in terminal.
+    community.general.dconf:
+      key: "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/bold-is-bright"
+      value: "true"
+
+  - name: Set value of scrollbar to 100000 in terminal.
+    community.general.dconf:
+      key: "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/scrollback-lines"
+      value: "1000000"
+
+  - name: Set terminal new tab shortcut.
+    community.general.dconf:
+      key: "/org/gnome/terminal/legacy/keybindings/new-tab"
+      value: "'<Primary>t'"
+      state: present
+
+  - name: Set terminal new tab position on the right.
+    community.general.dconf:
+      key: "/org/gnome/terminal/legacy/new-tab-position"
+      value: "'next'"
+      state: present
+
+  - name: Hide scrollbar in terminalin terminal
+    community.general.dconf:
+      key: "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/scrollbar-policy"
+      value: "'never'"
+      state: present
+
+  - name: Set Color palette for terminal to Ayu Dark.
+    community.general.dconf:
+      key: "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/palette"
+      value: "['#0A0A0E0E1414', '#FFFF33333333', '#C2C2D9D94C4C', '#FFFF8F8F4040', '#5959C2C2FFFF', '#FFFFEEEE9999', '#9595E6E6CBCB', '#B3B3B1B1ADAD', '#4D4D55556666', '#FFFF33333333', '#C2C2D9D94C4C', '#FFFF8F8F4040', '#5959C2C2FFFF', '#FFFFEEEE9999', '#9595E6E6CBCB', '#B3B3B1B1ADAD']"
+      state: present
+
+  - name: Allow bold in terminal.
+    community.general.dconf:
+      key: "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/allow-bold"
+      value: "true"
+      state: present
+
+  - name: Set background color in terminal.
+    community.general.dconf:
+      key: "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/background-color"
+      value: "'#0A0A0E0E1414'"
+      state: present
+
+  - name: Set bold color in terminal.
+    community.general.dconf:
+      key: "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/bold-color"
+      value: "'#B3B3B1B1ADAD'"
+      state: present
+
+  - name: Ensure bold is the same as foreground color in terminal.
+    community.general.dconf:
+      key: "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/bold-color-same-as-fg"
+      value: "true"
+      state: present
+
+  - name: Set cursor background color in terminal.
+    community.general.dconf:
+      key: "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/cursor-background-color"
+      value: "'#E6E6B4B45050'"
+      state: present
+
+  - name: Set cursor background color in terminal.
+    community.general.dconf:
+      key: "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/cursor-foreground-color"
+      value: "'#0A0A0E0E1414'"
+      state: present
+
+  - name: Enable cursor colors in terminal.
+    community.general.dconf:
+      key: "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/cursor-colors-set"
+      value: "true"
+      state: present
+
+  - name: Set foreground color in terminal.
+    community.general.dconf:
+      key: "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/foreground-color"
+      value: "'#B3B3B1B1ADAD'"
+      state: present
+
+  - name: Set theme name in terminal.
+    community.general.dconf:
+      key: "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/visible-name"
+      value: "'Ayu Dark'"
+      state: present

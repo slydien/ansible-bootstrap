@@ -1,0 +1,94 @@
+---
+- name: Clone dotfiles git repo and install
+  become: yes
+  become_user: "{{ username }}"
+  git:
+    repo: https://github.com/zedxlucian/dotfiles
+    version: master
+    dest: /home/{{ username }}/dotfiles
+    update: false
+
+- name: Remove preinstalled clutter from home directory.
+  file:
+    path: /home/{{ username }}/{{ item }}
+    state: absent
+  with_items:
+    - Desktop
+    - Documents
+    - Downloads
+    - Music
+    - Pictures
+    - Public
+    - Templates
+    - Videos
+
+- name: Create personal config directories.
+  file:
+    path: /home/{{ username }}/{{ item.dir }}
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0700
+  with_items:
+    - { dir: .config }
+    - { dir: .config/zsh }
+    - { dir: .config/doom }
+    - { dir: .ssh }
+    - { dir: .local }
+    - { dir: .local/share }
+    - { dir: .local/share/applications }
+    - { dir: .local/share/bin }
+    - { dir: .local/share/gnome-shell/extensions }
+    - { dir: desktop }
+    - { dir: documents }
+    - { dir: downloads }
+    - { dir: projects }
+    - { dir: templates }
+    - { dir: pictures }
+    - { dir: music }
+    - { dir: videos }
+
+- name: Copy user-dirs.dirs.
+  copy:
+    src: files/user-dirs.dirs
+    dest: /home/{{ username }}/.config/user-dirs.dirs
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0600
+  notify: update_xdg
+
+- name: Copy personal config files.
+  copy:
+    src: files/{{ item.src }}
+    dest: /home/{{ username }}/{{ item.dest }}
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0600
+  with_items:
+    - { src: '.xprofile', dest: '.xprofile' }
+    - { src: 'doom/config.el', dest: '.config/doom/config.el' }
+    - { src: 'doom/init.el', dest: '.config/doom/init.el' }
+    - { src: 'doom/packages.el', dest: '.config/doom/packages.el' }
+    - { src: 'zsh/.zprofile', dest: '.config/zsh/.zprofile' }
+    - { src: 'zsh/.zshrc', dest: '.config/zsh/.zshrc' }
+    - { src: 'aliasrc', dest: '.config/aliasrc' }
+    - { src: 'ssh_config', dest: '.ssh/config' }
+
+
+- name: Export zsh default dir system-wide
+  become: yes
+  copy:
+    src: files/zshenv
+    dest: /etc/zsh/zshenv
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+
+- name: Create dir for zsh history in .cache folder
+  become: yes
+  become_user: "{{ username }}"
+  file:
+    path: /home/{{ username }}/.cache/zsh
+    state: directory
+    owner: "{{ username }}"
+    mode: 0775

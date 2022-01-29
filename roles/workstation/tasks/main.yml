@@ -1,0 +1,11 @@
+---
+- include_tasks: tasks/system.yml
+- include_tasks: tasks/users.yml
+- include_tasks: tasks/packages_arch.yml
+  when: ansible_distribution == "Archlinux"
+- include_tasks: tasks/gnome.yml
+- include_tasks: tasks/cron.yml
+- include_tasks: tasks/dotfiles.yml
+- include_tasks: tasks/doom-emacs.yml
+- include_role:
+    name: "/home/lydien/Projets/ansible-role-gnome-extensions"

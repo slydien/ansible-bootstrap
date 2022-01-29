@@ -1,0 +1,12 @@
+Host dockerhost
+	Hostname 192.168.1.139
+	User lydien
+	Port 1275
+	IdentityFile ~/.ssh/id_rsa
+
+
+Host rpi
+	Hostname 192.168.1.19
+	User pi
+	Port 1275
+	IdentityFile ~/.ssh/id_rsa

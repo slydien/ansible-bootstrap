@@ -1,0 +1,123 @@
+---
+- name: Install base-devel to be able to install aur packages
+  become: true
+  pacman: state=present name=base-devel
+  register: basedevel_check
+
+- name: Clone yay repo from Archlinux
+  become: true
+  git: repo=https://aur.archlinux.org/yay.git dest=/opt/yay/ update=no
+
+- name: Give ownership to yay repo to {{ username }}
+  become: true
+  file:
+    path: /opt/yay
+    owner: "{{ username }}"
+    group: users
+    recurse: true
+  changed_when: false
+
+- name: Install yay
+  become: true
+  become_user: "{{ username }}"
+  shell: |
+    cd /opt/yay
+    makepkg -si --noconfirm
+  when: basedevel_check.changed
+
+- name: Update cache pacman.
+  become: true
+  pacman:
+    update_cache: true
+    upgrade: true
+
+- name: Install packages from pacman
+  become: true
+  pacman:
+    state: present
+    name:
+      - unzip
+      - fzf
+      - fd
+      - ripgrep
+      - shellcheck
+      - mlocate
+      - emacs
+      - mpv
+      - exa
+      - neofetch
+      - pacman-contrib
+      - iptables
+      - cronie
+      - python
+      - python-pip
+      - editorconfig-core-c
+      - pandoc
+      - graphviz
+      - python-isort
+      - pyenv
+      - python-nose
+      - python-pytest
+      - python-pipenv
+      - npm
+      - vim
+      - firefox
+      - gnome
+      - gnome-shell
+      - gnome-shell-extensions
+      - gnome-themes-extra
+      - dconf-editor
+      - gnome-tweaks
+      - ttf-roboto-mono
+      - filezilla
+      - qemu
+      - virt-manager
+      - virt-viewer
+      - dnsmasq
+      - vde2
+      - bridge-utils
+      - openbsd-netcat
+      - flatpak
+    extra_args: --needed --noconfirm
+    update_cache: true
+
+- name: Install packages from AUR
+  become: true
+  become_user: "{{ username }}"
+  pacman:
+    name:
+      - zsh-autosuggestions
+      - zsh-fast-syntax-highlighting
+      - chrome-gnome-shell
+      - nerd-fonts-ubuntu-mono
+    state: present
+    executable: yay
+    extra_args: --needed --noconfirm
+    update_cache: true
+
+- name: Install pip3 packages for {{ username }}.
+  become: true
+  become_user: "{{ username }}"
+  pip:
+    name:
+      - psutil
+      - ansible
+      - python-vagrant
+    extra_args: --user
+
+- name: Ensure Flathub remote is installed
+  flatpak_remote:
+    name: flathub
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+    state: present
+    method: system
+
+- name: Install packages from flatpak
+  flatpak:
+    name:
+      - com.getferdi.Ferdi
+      - com.github.debauchee.barrier
+      - com.moonlight_stream.moonlight
+      - com.spotify.client
+      - org.qbittorrent.qBittorrent
+    state: present

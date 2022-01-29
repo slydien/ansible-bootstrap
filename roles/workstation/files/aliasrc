@@ -1,0 +1,36 @@
+#!/bin/sh
+
+
+# Verbosity and settings that you pretty much just always are going to want.
+alias \
+	cp="cp -iv" \
+	mv="mv -iv" \
+	rm="rm -v" \
+	mkd="mkdir -pv" \
+
+# Changing "ls" to "exa"
+alias ls='exa -x --color=always --group-directories-first --time-style=default' # my preferred listing
+alias la='exa -a --color=always --group-directories-first --time-style=default'  # all files and dirs
+alias ll='exa -al --color=always --group-directories-first --time-style=default'  # long format
+alias lt='exa -aT --color=always --group-directories-first --time-style=default' # tree listing
+alias l.='exa -a | egrep "^\."'
+
+# Colorize commands when possible.
+alias \
+	grep="grep --color=auto" \
+	diff="diff --color=auto" \
+
+# These common commands are just too long! Abbreviate them.
+alias \
+	v='nvim -c "let g:tty='\''$(tty)'\''"' \
+	ka="killall" \
+	g="git" \
+	p="sudo pacman" \
+	gs="git status" \
+	ga="git add" \
+	gc="git commit" \
+	gph="git push" \
+	gpl="git pull" \
+	gr="git rm" \
+	..="cd .."
+

@@ -1,0 +1,53 @@
+---
+- name: Ensure Git and Zsh are present for next steps.
+  package:
+    name:
+      - git
+      - zsh
+    state: present
+
+- name: Create group {{ username }}
+  group: name="{{ username }}" state=present
+
+- name: Create {{ username }} user
+  user:
+    name: "{{ username }}"
+    create_home: yes
+    password: "{{ password }}"
+    group: "{{ username }}"
+    shell: /usr/bin/zsh
+    update_password: on_create
+    state: present
+
+- name: copy sudoers_{{ username }}
+  copy:
+    src: sudoers_{{ username }}
+    dest: /etc/sudoers.d/{{ username }}
+    owner: root
+    group: root
+    mode: 0440
+
+- name: Setting git name for {{ username }}
+  git_config:
+    name: user.name
+    scope: global
+    value: "{{ github_name }}"
+
+- name: Setting git name for {{ username }}
+  git_config:
+    name: user.email
+    scope: global
+    value: "{{ github_email }}"
+
+- name: create ansible user
+  user:
+    name: ansible
+    system: yes
+
+- name: copy sudoers_ansible
+  copy:
+    src: sudoers_ansible
+    dest: /etc/sudoers.d/ansible
+    owner: root
+    group: root
+    mode: 0440

@@ -1,0 +1,22 @@
+---
+- name: Clone Doom Emacs repo locally.
+  become: yes
+  become_user: "{{ username }}"
+  git:
+    repo: https://github.com/hlissner/doom-emacs
+    dest: "/home/{{ username }}/.emacs.d"
+    version: master
+
+- name: Run Doom sync to synchronize Doom with the private config
+  become: yes
+  become_user: "{{ username }}"
+  shell: |
+    /home/{{ username }}/.emacs.d/bin/doom sync
+  changed_when: false
+
+- name: Run Doom env to generate environment variables for Emacs
+  become: yes
+  become_user: "{{ username }}"
+  shell: |
+    /home/{{ username }}/.emacs.d/bin/doom env
+  changed_when: false

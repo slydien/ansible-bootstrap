@@ -1,0 +1,34 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+
+  pre_tasks:
+    - name: "Define Python Interpreter"
+      set_fact:
+        my_interpreter: "{{ ansible_python_interpreter }}"
+
+    - name: "Override Python Interpeter for Archlinux"
+      set_fact:
+        my_interpreter: "/usr/bin/python"
+      when:
+        - "ansible_os_family == 'Archlinux'"
+
+    - name: Update Repository cache on Archlinux based distributions.
+      pacman:
+        update_cache: yes
+        upgrade: yes
+      when: ansible_os_family == 'Archlinux'
+      vars:
+        ansible_python_interpreter: "{{ my_interpreter }}"
+
+    - name: Update Repository cache on Debian based distributions.
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+      when: ansible_os_family == 'Debian'
+
+- import_playbook: ../../local.yml

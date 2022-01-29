@@ -1,0 +1,4 @@
+skip_list:
+  - 'git-latest'
+  - 'no-handler'
+  - 'unnamed-task'
