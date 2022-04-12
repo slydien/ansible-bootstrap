@@ -1,0 +1,13 @@
+[Unit]
+  Description= CIFS mount for dockerdata
+  Requires= network-online.target
+  After=network-online.service
+
+[Mount]
+  What=//dockerhost/dockerdata
+  Where=/media/dockerdata
+  Options=credentials=/etc/smb_credentials.txt,rw,uid=1000,gid=1000,vers=3.11
+  Type=cifs
+
+[Install]
+  WantedBy=multi-user.target

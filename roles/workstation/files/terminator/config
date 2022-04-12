@@ -1,0 +1,46 @@
+[global_config]
+  title_hide_sizetext = True
+  title_transmit_bg_color = "#241f31"
+[keybindings]
+  go_up = <Primary>k
+  go_down = <Primary>j
+  go_left = <Primary>h
+  go_right = <Primary>l
+  split_horiz = <Alt>j
+  split_vert = <Alt>l
+  layout_launcher = <Alt>p
+[profiles]
+  [[default]]
+    background_color = "#282828"
+    background_darkness = 0.9
+    background_type = transparent
+    cursor_color = "#aaaaaa"
+    font = Roboto Mono 10
+    foreground_color = "#ebdbb2"
+    show_titlebar = False
+    scrollbar_position = hidden
+    scrollback_lines = 5000
+    palette = "#282828:#cc241d:#98971a:#d79921:#458588:#b16286:#689d6a:#a89984:#928374:#fb4934:#b8bb26:#fabd2f:#83a598:#d3869b:#8ec07c:#ebdbb2"
+    use_theme_colors = True
+    bold_is_bright = True
+    copy_on_selection = True
+[layouts]
+  [[default]]
+    [[[child0]]]
+      type = Window
+      parent = ""
+      order = 0
+      position = 26:23
+      maximised = False
+      fullscreen = False
+      size = 1446, 851
+      title = lydien@phoenix:~
+      last_active_term = 1a5a0568-4b98-4fcd-ade1-209da22d0e91
+      last_active_window = True
+    [[[terminal1]]]
+      type = Terminal
+      parent = child0
+      order = 0
+      profile = default
+      uuid = 1a5a0568-4b98-4fcd-ade1-209da22d0e91
+[plugins]

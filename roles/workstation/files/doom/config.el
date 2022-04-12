@@ -1,8 +1,8 @@
 (setq doom-theme 'doom-ayu-mirage)
 
-(setq doom-font (font-spec :family "UbuntuMono Nerd Font" :size 18 :weight 'Medium)
-      doom-variable-pitch-font (font-spec :family "Ubuntu" :size 14)
-      doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 24))
+(setq doom-font (font-spec :family "Fira Mono" :size 22 :weight 'Medium)
+      doom-variable-pitch-font (font-spec :family "Fira Sans Book" :size 22)
+      doom-big-font (font-spec :family "Fira Mono" :size 28))
 (after! doom-themes
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t))
@@ -11,7 +11,7 @@
   '(font-lock-keyword-face :slant italic))
 
 (setq user-full-name "Lydien SANDANASAMY"
-      user-mail-address "lydien@topikos.xyz")
+      user-mail-address "s.lydien@icloud.com")
 
 ;; (defconst doom-frame-transparency 93)
 ;; (set-frame-parameter (selected-frame) 'alpha doom-frame-transparency)
@@ -41,7 +41,7 @@
       (lydien/org-mode-setup)
       (lydien/org-mode-visual-fill))
 
-(setq org-directory "~/documents/org/"
+(setq org-directory "~/Documents/org/"
       org-archive-location (concat org-directory ".archive/%s::")
       org-roam-directory (concat org-directory "notes/")
       org-roam-db-location (concat org-roam-directory ".org-roam.db")
@@ -51,10 +51,9 @@
       org-ellipsis " ⤵" )
 
 (setq org-roam-capture-templates
-      '(("d" "default" plain (function org-roam--capture-get-point)
-       "%?"
-       :file-name "%(format-time-string \"%d-%m-%Y_%HH%M-${slug}\" (current-time) t)"
-       :head "#+title: ${title}\n"
+      '(("d" "default" plain "%?"
+       :target (file+head "%<%d-%m-%Y_%HH%M>-${slug}.org"
+                          "#+title: ${title}\n")
        :unnarrowed t)))
 
 (setq org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●"))

@@ -1,0 +1,13 @@
+[Unit]
+  Description= CIFS mount for nas backup
+  Requires= network-online.target
+  After=network-online.service
+
+[Mount]
+  What=//freebox-server.local/disk1/
+  Where=/media/nasbackup
+  Options=username=lydien,rw,uid=1000,gid=1000,vers=3.11,guest
+  Type=cifs
+
+[Install]
+  WantedBy=multi-user.target

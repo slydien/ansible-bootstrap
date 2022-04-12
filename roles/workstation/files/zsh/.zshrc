@@ -1,5 +1,8 @@
 # Load aliases
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/aliasrc" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/aliasrc"
+#Kubectl aliases
+[ -f ~/.config/.kubectl_aliases ] && source ~/.config/.kubectl_aliases
+function kubectl() { echo "+ kubectl $@">&2; command kubectl $@; }
 
 # History setup
 HISTSIZE=10000
